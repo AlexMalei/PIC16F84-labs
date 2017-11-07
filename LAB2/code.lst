@@ -1,0 +1,353 @@
+MPASM  5.50                          CODE.ASM   10-23-2017  20:03:16         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 #include "p16f84.inc"
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F84 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00206         LIST
+                      00002 
+  00000010            00003 v_length equ 0x10 ; lenght in string 
+  00000011            00004 v_processed equ 0x11 ; number of next symbol for read 
+  00000012            00005 v_eeprom_value equ 0x12
+                      00006 
+                      00007 
+  00000030            00008 c_arr_adr_1 set 0x30 ; array starting address
+  00000005            00009 c_num_1 set 0x5  ; number symbols in string
+                      00010 
+  00000040            00011 c_arr_adr_2 set 0x40
+  00000006            00012 c_num_2 set 0x6 
+                      00013 
+                      00014 
+2100                  00015     ORG 0x2100
+2100   0042 0053 0055 00016     DE 0x42, 0x53, 0x55, 0x49, 0x52
+       0049 0052 
+0000                  00017         ORG 0x0
+                      00018 
+0000                  00019 BEGIN:
+0000   2843           00020         GOTO MAIN
+                      00021 
+0001                  00022 READ_STRING_FROM_EEPROM:
+                      00023         
+                      00024         
+0001   1283           00025         BCF STATUS, 0x5 ;a set bank0
+                      00026         
+                      00027 ;///// read memory adress for EEPROM //////
+0002   0103           00028         CLRW 
+0003   3011           00029         MOVLW v_processed 
+0004   0084           00030         MOVWF FSR                
+0005   0800           00031         MOVF INDF, 0
+                      00032 
+                      00033 
+                      00034 ;///// read value from EEPROM ////////////
+0006   0089           00035         MOVWF EEADR     
+0007   1683           00036         BSF STATUS, 0x5 
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0008   1408           00037         BSF EECON1, 0x0 
+0009   1283           00038         BCF STATUS, 0x5 
+000A   0808           00039         MOVF EEDATA, 0  
+                      00040 
+                      00041 
+                      00042 
+MPASM  5.50                          CODE.ASM   10-23-2017  20:03:16         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00043 ;///// write value to memory /////////////
+000B   0092           00044         MOVWF v_eeprom_value
+000C   0103           00045         CLRW
+000D   3E30           00046         ADDLW c_arr_adr_1
+000E   0711           00047         ADDWF v_processed, 0
+000F   0084           00048         MOVWF FSR
+0010   0812           00049         MOVF v_eeprom_value,0
+0011   0080           00050         MOVWF INDF
+                      00051 
+                      00052 
+Message[305]: Using default destination of 1 (file).
+0012   0A91           00053         INCF v_processed
+0013   3011           00054         MOVLW v_processed 
+0014   0084           00055         MOVWF FSR
+0015   0800           00056         MOVF INDF, 0
+                      00057 
+                      00058         
+0016   0210           00059         SUBWF v_length, 0 
+0017   1903           00060         BTFSC STATUS, 0x2
+0018   2848           00061         GOTO END_READ_FROM_EEPROM         
+                      00062         
+0019   2801           00063         GOTO READ_STRING_FROM_EEPROM 
+                      00064 
+001A                  00065 WRITE_ARRAY_TO_EEPROM:  
+                      00066 
+001A                  00067 START_INITIALIZE_ARRAY:
+                      00068         
+001A   3040           00069         MOVLW c_arr_adr_2               
+001B   0711           00070         ADDWF v_processed, 0    
+001C   0084           00071         MOVWF FSR                               
+001D   0811           00072         MOVF v_processed, 0     
+001E   0080           00073         MOVWF INDF                              
+                      00074 
+Message[305]: Using default destination of 1 (file).
+001F   0A91           00075         INCF v_processed        
+0020   0811           00076         MOVF v_processed,0 ; 
+                      00077 
+0021   3E01           00078         ADDLW 0x1
+0022   0210           00079         SUBWF v_length, 0 
+0023   1C03           00080         BTFSS STATUS, 0x0
+0024   2826           00081         GOTO START_WRITE_TO_EEPROM       
+                      00082                                                                  
+0025   281A           00083         GOTO START_INITIALIZE_ARRAY
+                      00084 
+0026                  00085 START_WRITE_TO_EEPROM:
+                      00086         
+0026   0191           00087         CLRF v_processed
+                      00088 
+0027                  00089 START_CYCLE:
+                      00090 
+0027   3040           00091         MOVLW c_arr_adr_2
+0028   0711           00092         ADDWF v_processed,0
+0029   0084           00093         MOVWF FSR
+MPASM  5.50                          CODE.ASM   10-23-2017  20:03:16         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+002A   0800           00094         MOVF INDF, 0
+002B   0092           00095         MOVWF v_eeprom_value
+                      00096 
+                      00097 
+002C   1283           00098         BCF STATUS, 0x5 ; EEADR, EEDATA -> bank0
+002D   0811           00099         MOVF v_processed, 0
+002E   0089           00100         MOVWF EEADR
+Message[305]: Using default destination of 1 (file).
+002F   0892           00101         MOVF v_eeprom_value 
+0030   0088           00102         MOVWF EEDATA
+                      00103         
+0031   1683           00104         BSF STATUS, 0x5  ; EECON1 EECON2 -> bank1
+                      00105 
+0032   138B           00106         BCF INTCON, 0x7 ; GIE -> disable ints
+                      00107 
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0033   1508           00108         BSF EECON1, 0x2; WREN
+0034   3055           00109         MOVLW 0x55
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0035   0089           00110         MOVWF EECON2
+0036   30AA           00111         MOVLW 0xAA              ;only this sequence initiate writing(see datasheet)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0037   0089           00112         MOVWF EECON2    
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0038   1488           00113         BSF EECON1, 0x1 ; WR
+                      00114 
+0039                  00115 WRITE_SYMBOL_EECON_CYCLE:
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0039   1C88           00116         BTFSS EECON1, 0x1 ;WR
+003A   283C           00117         GOTO END_WRITE_SYMBOL_CYCLE
+003B   2839           00118         GOTO WRITE_SYMBOL_EECON_CYCLE
+                      00119 
+003C                  00120 END_WRITE_SYMBOL_CYCLE: 
+003C   178B           00121         BSF INTCON, 0x7 ; GIE bit
+                      00122         
+Message[305]: Using default destination of 1 (file).
+003D   0A91           00123         INCF v_processed        
+003E   0811           00124         MOVF v_processed,0 ; 
+                      00125 
+003F   0210           00126         SUBWF v_length, 0 ; check that we processed all string
+0040   1D03           00127         BTFSS STATUS, 0x2
+0041   2827           00128         GOTO START_CYCLE
+                      00129 
+0042   284D           00130         GOTO ENDMAIN
+                      00131 
+                      00132 
+0043                  00133 MAIN:
+                      00134         
+0043   0103           00135         CLRW 
+0044   3E05           00136         ADDLW c_num_1            
+0045   0090           00137         MOVWF v_length       
+0046   0191           00138         CLRF v_processed        
+                      00139         
+MPASM  5.50                          CODE.ASM   10-23-2017  20:03:16         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0047   2801           00140         GOTO READ_STRING_FROM_EEPROM
+                      00141 
+0048                  00142 END_READ_FROM_EEPROM:
+                      00143 
+0048   0103           00144         CLRW 
+0049   3E06           00145         ADDLW c_num_2            
+004A   0090           00146         MOVWF v_length      
+004B   0191           00147         CLRF v_processed        
+                      00148 
+004C   281A           00149         GOTO WRITE_ARRAY_TO_EEPROM
+                      00150 
+004D                  00151 ENDMAIN:
+                      00152         
+004D   0000           00153         NOP     
+                      00154 
+Warning[205]: Found directive in column 1. (END)
+                      00155 END
+MPASM  5.50                          CODE.ASM   10-23-2017  20:03:16         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BEGIN                             00000000
+C                                 00000000
+DC                                00000001
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+ENDMAIN                           0000004D
+END_READ_FROM_EEPROM              00000048
+END_WRITE_SYMBOL_CYCLE            0000003C
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+MAIN                              00000043
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+OPTION_REG                        00000081
+PCL                               00000002
+PCLATH                            0000000A
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+READ_STRING_FROM_EEPROM           00000001
+RP0                               00000005
+RP1                               00000006
+MPASM  5.50                          CODE.ASM   10-23-2017  20:03:16         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+START_CYCLE                       00000027
+START_INITIALIZE_ARRAY            0000001A
+START_WRITE_TO_EEPROM             00000026
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+WRITE_ARRAY_TO_EEPROM             0000001A
+WRITE_SYMBOL_EECON_CYCLE          00000039
+Z                                 00000002
+_CONFIG                           00002007
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+MPASM  5.50                          CODE.ASM   10-23-2017  20:03:16         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_XT_OSC                           00003FFD
+__16F84                           00000001
+__DEBUG                           1
+c_arr_adr_1                       00000030
+c_arr_adr_2                       00000040
+c_num_1                           00000005
+c_num_2                           00000006
+v_eeprom_value                    00000012
+v_length                          00000010
+v_processed                       00000011
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXX-- ---------------- ---------------- ----------------
+2100 : XXXXX----------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    78
+Program Memory Words Free:   946
+
+
+Errors   :     0
+Warnings :     1 reported,     0 suppressed
+Messages :    10 reported,     0 suppressed
+
+

@@ -1,0 +1,54 @@
+MPLINK 4.48, Linker
+Linker Map File - Created Mon Oct 23 20:03:17 2017
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_2       code   0x000000    program   0x00009c
+                   .org_1       code   0x002100    program   0x00000a
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00004d      
+                            0x002100    0x002104      
+            83 out of 1093 program addresses used, program memory utilization is 7%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    BEGIN   0x000000    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+                  ENDMAIN   0x00004d    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+     END_READ_FROM_EEPROM   0x000048    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+   END_WRITE_SYMBOL_CYCLE   0x00003c    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+                     MAIN   0x000043    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+  READ_STRING_FROM_EEPROM   0x000001    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+              START_CYCLE   0x000027    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+   START_INITIALIZE_ARRAY   0x00001a    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+    START_WRITE_TO_EEPROM   0x000026    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+    WRITE_ARRAY_TO_EEPROM   0x00001a    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+ WRITE_SYMBOL_EECON_CYCLE   0x000039    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    BEGIN   0x000000    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+  READ_STRING_FROM_EEPROM   0x000001    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+   START_INITIALIZE_ARRAY   0x00001a    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+    WRITE_ARRAY_TO_EEPROM   0x00001a    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+    START_WRITE_TO_EEPROM   0x000026    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+              START_CYCLE   0x000027    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+ WRITE_SYMBOL_EECON_CYCLE   0x000039    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+   END_WRITE_SYMBOL_CYCLE   0x00003c    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+                     MAIN   0x000043    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+     END_READ_FROM_EEPROM   0x000048    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+                  ENDMAIN   0x00004d    program     static D:\Studying\7_semestr\POVS\LAB2\POVS-lab2\code.asm
+
+

@@ -1,0 +1,11 @@
+Message[302] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 37 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 53 : Using default destination of 1 (file).
+Message[305] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 75 : Using default destination of 1 (file).
+Message[305] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 101 : Using default destination of 1 (file).
+Message[302] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 108 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 110 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 112 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 113 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 116 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 123 : Using default destination of 1 (file).
+Warning[205] D:\STUDYING\7_SEMESTR\POVS\LAB2\POVS-LAB2\CODE.ASM 155 : Found directive in column 1. (END)

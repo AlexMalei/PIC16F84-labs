@@ -1,0 +1,365 @@
+MPASM  5.50                           MAX.ASM   10-9-2017  15:49:20         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 
+                      00002 ;------------------------------------------------------
+                      00003 ; EMBEDDED SYSTEMS
+                      00004 ; Practical Work #1
+                      00005 ;------------------------------------------------------
+                      00006 ; This is a source file of the program which finds the
+                      00007 ; maximal element from the given array of numbers.
+                      00008 ;------------------------------------------------------
+                      00009 ; File      :   max.asm
+                      00010 ; Author    :   Alexander A. Ivaniuk
+                      00011 ; Date      :   10.10.2004
+                      00012 ;------------------------------------------------------
+                      00013 #include "p16f84.inc" 
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F84 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      00206         LIST
+                      00014 
+  00000030            00015 c_adr set 0x30  ; the starting address of the array, a constant
+  0000002F            00016 v_ptr equ 0x2F  ; the pointer to the current element in array, a variable
+  0000002D            00017 v_min equ 0x2D  ; the maximal number in array, a variable
+  0000002C            00018 v_swap1 equ 0x2C
+  0000002B            00019 v_swap2 equ 0x2B
+  00000020            00020 v_addsum equ 0x20
+  00000021            00021 v_subsum equ 0x21
+  00000014            00022 c_num set 0x14   ; the number of elements in array, a constant 
+                      00023 
+                      00024 
+0000                  00025 BEGIN:
+0000   1283           00026         BCF STATUS, 0x5 ; set Bank0 in Data Memory by clearing RP0 bit in STATUS register
+0001   01AF           00027         CLRF v_ptr   
+0002   01AD           00028         CLRF v_min 
+0003   2816           00029         GOTO OUTLOOP2 ;pointer of exersice;
+                      00030 
+                      00031 ; EXERCISE 1
+0004                  00032 MININIT:
+0004   082F           00033         MOVF v_ptr,0 
+0005   3E30           00034         ADDLW c_adr
+0006   0084           00035         MOVWF FSR
+0007   0800           00036         MOVF INDF,0
+0008   00AD           00037         MOVWF v_min
+                      00038 
+0009                  00039 LOOP1:
+0009   082D           00040         MOVF v_min,0 
+000A   0200           00041         SUBWF INDF,0
+000B   1803           00042         BTFSC STATUS,0
+000C   280F           00043         GOTO SKIP1
+                      00044                 
+MPASM  5.50                           MAX.ASM   10-9-2017  15:49:20         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000D   0800           00045         MOVF INDF,0
+000E   00AD           00046         MOVWF v_min 
+                      00047         
+000F                  00048 SKIP1:
+000F   0A84           00049         INCF FSR, 0x1
+0010   3014           00050         MOVLW c_num
+0011   3E30           00051         ADDLW c_adr
+0012   0204           00052         SUBWF FSR,0
+0013   1C03           00053         BTFSS STATUS,0
+0014   2809           00054         GOTO LOOP1
+0015   286A           00055         GOTO CLEAR
+                      00056 
+                      00057 ; EXERCISE 2
+0016                  00058 OUTLOOP2: 
+0016   3030           00059         MOVLW c_adr
+0017   0084           00060         MOVWF FSR
+0018   0A84           00061         INCF FSR, 0x1
+                      00062 
+0019                  00063 INLOOP2: 
+0019   0800           00064         MOVF INDF,0
+001A   00AC           00065         MOVWF v_swap1 
+001B   0384           00066         DECF FSR, 0x1
+001C   0800           00067         MOVF INDF, 0
+001D   0A84           00068         INCF FSR, 0x1
+001E   022C           00069         SUBWF v_swap1, 0 
+001F   1803           00070         BTFSC STATUS,0 
+0020   2829           00071         GOTO SKIP2
+                      00072 
+0021   0384           00073         DECF FSR, 0x1
+0022   0800           00074         MOVF INDF,0
+0023   00AB           00075         MOVWF v_swap2
+0024   082C           00076         MOVF v_swap1, 0
+0025   0080           00077         MOVWF INDF
+0026   0A84           00078         INCF FSR, 0x1
+0027   082B           00079         MOVF v_swap2, 0
+0028   0080           00080         MOVWF INDF
+                      00081 
+0029                  00082 SKIP2:
+0029   0A84           00083         INCF FSR, 0x1
+002A   082F           00084         MOVF v_ptr, 0
+002B   3C14           00085         SUBLW c_num
+002C   3E30           00086         ADDLW c_adr
+002D   0204           00087         SUBWF FSR, 0
+002E   1C03           00088         BTFSS STATUS, 0
+002F   2819           00089         GOTO INLOOP2
+                      00090         
+                      00091         ;Outloop2 continue
+0030   0AAF           00092         INCF v_ptr, 0x1 
+0031   3014           00093         MOVLW c_num
+0032   022F           00094         SUBWF v_ptr, 0
+0033   1C03           00095         BTFSS STATUS, 0 
+0034   2816           00096         GOTO OUTLOOP2
+0035   286A           00097         GOTO CLEAR
+MPASM  5.50                           MAX.ASM   10-9-2017  15:49:20         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00098 
+                      00099 ; EXERCISE 3
+0036                  00100 OUTLOOP3: 
+0036   3030           00101         MOVLW c_adr
+0037   0084           00102         MOVWF FSR
+0038   0A84           00103         INCF FSR, 0x1
+                      00104 
+0039                  00105 INLOOP3: 
+0039   0800           00106         MOVF INDF,0
+003A   00AC           00107         MOVWF v_swap1 
+003B   0384           00108         DECF FSR, 0x1
+003C   082C           00109         MOVF v_swap1, 0
+003D   0200           00110         SUBWF INDF, 0
+003E   0A84           00111         INCF FSR, 0x1
+003F   1803           00112         BTFSC STATUS,0
+0040   2849           00113         GOTO SKIP3
+                      00114 
+0041   0384           00115         DECF FSR, 0x1
+0042   0800           00116         MOVF INDF,0
+0043   00AB           00117         MOVWF v_swap2
+0044   082C           00118         MOVF v_swap1, 0
+0045   0080           00119         MOVWF INDF
+0046   0A84           00120         INCF FSR, 0x1
+0047   082B           00121         MOVF v_swap2, 0
+0048   0080           00122         MOVWF INDF
+                      00123 
+0049                  00124 SKIP3:
+0049   0A84           00125         INCF FSR, 0x1
+004A   082F           00126         MOVF v_ptr, 0
+004B   3C14           00127         SUBLW c_num
+004C   3E30           00128         ADDLW c_adr
+004D   0204           00129         SUBWF FSR, 0
+004E   1C03           00130         BTFSS STATUS, 0
+004F   2839           00131         GOTO INLOOP3
+                      00132 
+0050   0AAF           00133         INCF v_ptr, 0x1 
+0051   3014           00134         MOVLW c_num
+0052   022F           00135         SUBWF v_ptr, 0
+0053   1C03           00136         BTFSS STATUS, 0
+0054   2836           00137         GOTO OUTLOOP3
+0055   286A           00138         GOTO CLEAR
+                      00139 
+                      00140 ;ADDITIONAL_TASK
+0056                  00141 ADDINIT:
+0056   01A1           00142         CLRF v_subsum
+0057   01A0           00143         CLRF v_addsum
+0058   082F           00144         MOVF v_ptr,0 
+0059   3E30           00145         ADDLW c_adr
+005A   0084           00146         MOVWF FSR
+                      00147 
+005B                  00148 LOOPA:
+005B   307F           00149         MOVLW 0x7F  
+005C   0200           00150         SUBWF INDF, 0
+MPASM  5.50                           MAX.ASM   10-9-2017  15:49:20         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+005D   1803           00151         BTFSC STATUS, 0
+005E   2862           00152         GOTO SUB 
+                      00153         
+005F                  00154 ADD:
+005F   0800           00155         MOVF INDF, 0
+0060   07A0           00156         ADDWF v_addsum, 0x1
+0061   2864           00157         GOTO NEXT
+0062                  00158 SUB:
+0062   0800           00159         MOVF INDF, 0
+0063   07A1           00160         ADDWF v_subsum, 0x1
+                      00161 
+0064                  00162 NEXT:
+0064   0A84           00163         INCF FSR, 0x1
+0065   3014           00164         MOVLW c_num
+0066   3E30           00165         ADDLW c_adr
+0067   0204           00166         SUBWF FSR,0
+0068   1C03           00167         BTFSS STATUS,0
+0069   285B           00168         GOTO LOOPA
+                      00169 
+006A                  00170 CLEAR:
+006A   01AF           00171         CLRF v_ptr
+006B   01AD           00172         CLRF v_min
+                      00173  
+                      00174         end
+MPASM  5.50                           MAX.ASM   10-9-2017  15:49:20         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADD                               0000005F
+ADDINIT                           00000056
+BEGIN                             00000000
+C                                 00000000
+CLEAR                             0000006A
+DC                                00000001
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INLOOP2                           00000019
+INLOOP3                           00000039
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LOOP1                             00000009
+LOOPA                             0000005B
+MININIT                           00000004
+NEXT                              00000064
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OUTLOOP2                          00000016
+OUTLOOP3                          00000036
+PCL                               00000002
+PCLATH                            0000000A
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+MPASM  5.50                           MAX.ASM   10-9-2017  15:49:20         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+SKIP1                             0000000F
+SKIP2                             00000029
+SKIP3                             00000049
+STATUS                            00000003
+SUB                               00000062
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_CONFIG                           00002007
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+MPASM  5.50                           MAX.ASM   10-9-2017  15:49:20         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84                           00000001
+__DEBUG                           1
+c_adr                             00000030
+c_num                             00000014
+v_addsum                          00000020
+v_min                             0000002D
+v_ptr                             0000002F
+v_subsum                          00000021
+v_swap1                           0000002C
+v_swap2                           0000002B
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXX---- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   108
+Program Memory Words Free:   916
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

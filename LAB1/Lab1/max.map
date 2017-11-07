@@ -1,0 +1,61 @@
+MPLINK 4.48, Linker
+Linker Map File - Created Mon Oct 09 15:49:23 2017
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x0000d8
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00006b      
+            108 out of 1093 program addresses used, program memory utilization is 9%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                      ADD   0x00005f    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  ADDINIT   0x000056    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    BEGIN   0x000000    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    CLEAR   0x00006a    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  INLOOP2   0x000019    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  INLOOP3   0x000039    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    LOOP1   0x000009    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    LOOPA   0x00005b    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  MININIT   0x000004    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                     NEXT   0x000064    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                 OUTLOOP2   0x000016    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                 OUTLOOP3   0x000036    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    SKIP1   0x00000f    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    SKIP2   0x000029    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    SKIP3   0x000049    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                      SUB   0x000062    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    BEGIN   0x000000    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  MININIT   0x000004    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    LOOP1   0x000009    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    SKIP1   0x00000f    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                 OUTLOOP2   0x000016    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  INLOOP2   0x000019    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    SKIP2   0x000029    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                 OUTLOOP3   0x000036    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  INLOOP3   0x000039    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    SKIP3   0x000049    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                  ADDINIT   0x000056    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    LOOPA   0x00005b    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                      ADD   0x00005f    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                      SUB   0x000062    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                     NEXT   0x000064    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+                    CLEAR   0x00006a    program     static D:\Studying\7_semestr\POVS\LAB1\Lab1\max.asm
+
+
